@@ -59,17 +59,17 @@ export default function UserTable() {
   }
 
   const handleChange = (e) => {
-    setSearchInput(e.target.value.toLowerCase());
+    setSearchInput(e.target.value);
   };
 
   const filteredUsers = users.filter((user) => {
     return (
-      user.gender.toLowerCase() === (searchInput) ||
-      user.name.first.toLowerCase().includes(searchInput) ||
-      user.name.last.toLowerCase().includes(searchInput) ||
-      user.location.city.toLowerCase().includes(searchInput) ||
-      user.location.state.toLowerCase().includes(searchInput) ||
-      user.location.country.toLowerCase().includes(searchInput)
+      user.gender.toLowerCase() === (searchInput.toLowerCase()) ||
+      user.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
+      user.name.last.toLowerCase().includes(searchInput.toLowerCase()) ||
+      user.location.city.toLowerCase().includes(searchInput.toLowerCase()) ||
+      user.location.state.toLowerCase().includes(searchInput.toLowerCase()) ||
+      user.location.country.toLowerCase().includes(searchInput.toLowerCase())
     );
   });
 
@@ -81,7 +81,7 @@ export default function UserTable() {
           handleChange={handleChange} />
         <div></div>
       </div>
-      
+
       <DataTable value={filteredUsers} sortMode="multiple" paginator rows={7} stripedRows tableStyle={{ minWidth: '50rem' }}
         style={{ margin: '15px', marginTop: '25px' }}>
         <Column header="Name" sortable body={combinedName} bodyStyle={{ fontWeight: 'bold' }}
