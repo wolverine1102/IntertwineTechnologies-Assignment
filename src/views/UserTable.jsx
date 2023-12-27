@@ -4,7 +4,6 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import SearchBox from "../components/SearchBox";
-import _ from "lodash";
 
 
 const baseURL = "api/users";
@@ -60,14 +59,17 @@ export default function UserTable() {
   }
 
   const handleChange = (e) => {
-    setSearchInput(e.target.value);
+    setSearchInput(e.target.value.toLowerCase());
   };
 
   const filteredUsers = users.filter((user) => {
     return (
-      user.gender.toLowerCase() === (searchInput.toLowerCase()) ||
-      user.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
-      user.name.last.toLowerCase().includes(searchInput.toLowerCase())
+      user.gender.toLowerCase() === (searchInput) ||
+      user.name.first.toLowerCase().includes(searchInput) ||
+      user.name.last.toLowerCase().includes(searchInput) ||
+      user.location.city.toLowerCase().includes(searchInput) ||
+      user.location.state.toLowerCase().includes(searchInput) ||
+      user.location.country.toLowerCase().includes(searchInput)
     );
   });
 
@@ -76,12 +78,12 @@ export default function UserTable() {
       <div className="container" style={{ margin: '15px', display: 'flex', justifyContent: 'space-between' }}>
         <h1 style={{ color: '#37404c', letterSpacing: '2px' }}>Users</h1>
         <SearchBox value={searchInput} style={{ width: '700px', borderRadius: '15px', marginTop: '18px' }} 
-          handleChange={handleChange}
-        />
+          handleChange={handleChange} />
         <div></div>
       </div>
+      
       <DataTable value={filteredUsers} sortMode="multiple" paginator rows={7} stripedRows tableStyle={{ minWidth: '50rem' }}
-        style={{ margin: '15px', marginTop: '25px' }} globalFilter={searchInput}>
+        style={{ margin: '15px', marginTop: '25px' }}>
         <Column header="Name" sortable body={combinedName} bodyStyle={{ fontWeight: 'bold' }}
           sortField="name.first" />
         <Column field="gender" sortable header="Gender" bodyStyle={{ textTransform: 'capitalize' }} />
